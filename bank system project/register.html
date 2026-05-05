@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #3998cf ,#6bdceb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #131111;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #e48dd1;
+    color: rgb(17, 16, 17);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #3b8baf;
+  }
+
+  .toggle {
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #2ca6f7;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .error {
+    color: rgb(223, 76, 76);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LOGIN FORM -->
+  <div id="loginForm">
+    <h2>register here</h2>
+    <input type="text" id="loginUser" placeholder="Username">
+    <input type="password" id="loginPass" placeholder="Password">
+    <p class="error" id="loginError"></p>
+    <button onclick="login()">Login</button>
+    <div class="toggle" onclick="showRegister()">Don't have an account? Sign Up</div>
+  </div>
+
+  <!-- REGISTER FORM -->
+  <div id="registerForm" class="hidden">
+    <h2>Register</h2>
+    <input type="text" id="regUser" placeholder="Username">
+    <input type="email" id="regEmail" placeholder="Email">
+    <input type="password" id="regPass" placeholder="Password">
+    <input type="password" id="regConfirm" placeholder="Confirm Password">
+    <p class="error" id="regError"></p>
+    <button onclick="register()">Sign Up</button>
+    <div class="toggle" onclick="showLogin()">Already have an account? Login</div>
+  </div>
+
+</div>
+
+<script>
+  function showRegister() {
+    document.getElementById("loginForm").classList.add("hidden");
+    document.getElementById("registerForm").classList.remove("hidden");
+  }
+
+  function showLogin() {
+    document.getElementById("registerForm").classList.add("hidden");
+    document.getElementById("loginForm").classList.remove("hidden");
+  }
+
+  function register() {
+    let user = document.getElementById("regUser").value;
+    let email = document.getElementById("regEmail").value;
+    let pass = document.getElementById("regPass").value;
+    let confirm = document.getElementById("regConfirm").value;
+
+    if (!user || !email || !pass || !confirm) {
+      document.getElementById("regError").innerText = "All fields are required!";
+      return;
+    }
+
+    if (pass !== confirm) {
+      document.getElementById("regError").innerText = "Passwords do not match!";
+      return;
+    }
+
+    // Save user (localStorage for demo)
+    localStorage.setItem("username", user);
+    localStorage.setItem("password", pass);
+
+    alert("Registration successful!");
+    showLogin();
+  }
+
+  function login() {
+    let user = document.getElementById("loginUser").value;
+    let pass = document.getElementById("loginPass").value;
+
+    let storedUser = localStorage.getItem("username");
+    let storedPass = localStorage.getItem("password");
+
+    if (user === storedUser && pass === storedPass) {
+      alert("Login successful!");
+    } else {
+      document.getElementById("loginError").innerText = "Invalid username or password!";
+    }
+  }
+</script>
+
+</body>
+</html>
